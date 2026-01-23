@@ -438,7 +438,7 @@
         {
          "Ref": "AWS::Partition"
         },
-        ":iam::aws:policy/AdministratorAccess"
+        ":iam::aws:policy/AmazonECSInfrastructureRolePolicyForManagedInstances"
        ]
       ]
      }
@@ -470,7 +470,7 @@
         {
          "Ref": "AWS::Partition"
         },
-        ":iam::aws:policy/AdministratorAccess"
+        ":iam::aws:policy/AmazonECSInstanceRolePolicyForManagedInstances"
        ]
       ]
      }
@@ -500,6 +500,34 @@
       "IpProtocol": "-1"
      }
     ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": {
+       "Fn::GetAtt": [
+        "Vpc8378EB38",
+        "CidrBlock"
+       ]
+      },
+      "Description": {
+       "Fn::Join": [
+        "",
+        [
+         "from ",
+         {
+          "Fn::GetAtt": [
+           "Vpc8378EB38",
+           "CidrBlock"
+          ]
+         },
+         ":80"
+        ]
+       ]
+      },
+      "FromPort": 80,
+      "IpProtocol": "tcp",
+      "ToPort": 80
+     }
+    ],
     "VpcId": {
      "Ref": "Vpc8378EB38"
     }
@@ -519,6 +547,7 @@
       ]
      },
      "InstanceLaunchTemplate": {
+      "CapacityOptionType": "SPOT",
       "Ec2InstanceProfileArn": {
        "Fn::GetAtt": [
         "InstanceProfile9F2F41CB",
